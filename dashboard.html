@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+            <div class="profile">
+                <span>User Name</span>
+                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
+            </div>
+        </nav>
+        <div class="function">
+            <div class="search">
+                <input type="search" placeholder="Search stories..." class="searchBar">
+                <button><i class="fa fa-search" aria-hidden="true"></i></button>
+            </div>
+            <button class="createBtn">New Story</button>
+        </div>
+        <!--import mock data from mockData.js-->
+        <ul class="stories"></ul>
+    </div>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
