@@ -154,3 +154,32 @@ nav{
     color: white;
     border: 3px solid darkblue;
 }
+/*storyTypes section*/
+.createBlock {
+  position: fixed;          
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-width: 90%;
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  z-index: 1000;
+  display: none;         
+}
+
+.closeBtn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+.storyTypes ul{
+    list-style-type: none;
+    display: flex;
+}
