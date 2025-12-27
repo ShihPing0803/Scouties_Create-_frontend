@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+            <div class="profile">
+                <span>User Name</span>
+                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
+            </div>
+        </nav>
+        <div class="createPage">
+            <div class="formPanel">
+                <h2>Create a Quest</h2>
+                <p>🎉 Congrats on starting to build a quest! 🤝</p>
+                <br>
+                <p>Make sure you build it where you live, either in the same city, or in another one nearby, so that you can actually head out on location to gather materials for your game.</p>
+                <br>
+                <p>Also, make sure to build your tour in English so we can be able to moderate it. Once the English version is vetted and published for sale, you will also be able to either translate it manually or request to auto-translate it into other languages with the help of our platform.</p>
+                <form>
+                    <label for="city">What city will your game be in?</label>
+                    <input type="search" id="city" name="city" placeholder="Search for the city name or zip code">
+                    <label for="title">Game Title</label>
+                    <input type="text" id="title" name="title" placeholder="Enter your game title here">
+                    <label for="description">Game Description</label>
+                    <textarea id="description" 
+                            name="description" 
+                            rows="4" 
+                            placeholder="Describe your game here"
+                            maxlength="350">
+                    </textarea>
+                    <small>0 / 350</small>
+                    <button type="submit" class="submitBtn">Complete Step</button>
+                </form>
+            </div>
+            <div class="mapPanel">
+                <iframe src="https://www.google.com/maps?q=Sibiu&output=embed" width="100%"
+                    height="100%" style="border:0;"></iframe>
+            </div>
+        </div>
+    </div>
+    <script src="../js/create.js"></script>
+</body>
+</html>

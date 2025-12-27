@@ -55,3 +55,19 @@ mockData.storyTypes.forEach(type => {
     li.appendChild(typeBtn);
     btnContainer.appendChild(li);
 });
+
+const continueBtn = document.querySelector('.continueBtn');
+const routeMap = {
+  "T1": "/create/scavenger-hunt.html",
+  "T2": "/create/quest.html",
+  "T3": "/create/exploration-tour.html"
+};
+
+continueBtn.addEventListener('click', () => {
+    if(selectedType == null){
+        alert("Please select a story type before continuing.");
+        return;
+    }
+    
+    window.location.href = routeMap[selectedType];
+});
