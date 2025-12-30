@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../css/style.css">
 </head>
-<body>
+<body data-story-type = "scavenger-hunt">
     <div class="container">
         <nav>
-            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+            <h1 class="logo"><a href="../dashboard.html">Scouties</a></h1>
             <div class="profile">
                 <span>User Name</span>
                 <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
@@ -18,7 +18,7 @@
         </nav>
         <div class="createPage">
             <div class="formPanel">
-                <h2>Create a Quest</h2>
+                <h2>Create a scavenger-hunt</h2>
                 <p>🎉 Congrats on starting to build a quest! 🤝</p>
                 <br>
                 <p>Make sure you build it where you live, either in the same city, or in another one nearby, so that you can actually head out on location to gather materials for your game.</p>
@@ -27,8 +27,10 @@
                 <form>
                     <label for="city">What city will your game be in?</label>
                     <input type="search" id="city" name="city" placeholder="Search for the city name or zip code">
+                    <p class="errorMsg"></p>
                     <label for="title">Game Title</label>
                     <input type="text" id="title" name="title" placeholder="Enter your game title here">
+                    <p class="errorMsg"></p>
                     <label for="description">Game Description</label>
                     <textarea id="description" 
                             name="description" 
@@ -36,7 +38,9 @@
                             placeholder="Describe your game here"
                             maxlength="350">
                     </textarea>
+                    <p class="errorMsg"></p>
                     <small>0 / 350</small>
+                    <p class="errorMsg"></p>
                     <button type="submit" class="submitBtn">Complete Step</button>
                 </form>
             </div>
