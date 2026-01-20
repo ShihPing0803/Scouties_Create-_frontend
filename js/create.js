@@ -99,7 +99,7 @@ completeBtn.addEventListener('click', (e) => {
     .then(data => {
         console.log("Saved:", data); 
         //window.location.href = `workspace.html/${data.id}`;
-        window.location.href = `http://localhost:8000/dashboard.html`;
+        window.location.href = `/dashboard.html`;
     })
     .catch(err => console.error(err));
 });

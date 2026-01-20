@@ -1,11 +1,24 @@
+:root {
+  --bs-primary: #4b3a8e;
+  --bs-primary-rgb: 75, 58, 142;
+}
+
+
+body {
+  font-family: "Noto Sans TC", system-ui, sans-serif;
+}
+
 .container{
-    max-width: 1200px;
+    max-width: 1980px;
     margin: 0 auto;
+    padding: 50px;
 }
 nav{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+
 .logo a {
     background-image: url('https://placehold.net/default.png');
     width: 45px;
@@ -239,4 +252,22 @@ nav{
 .errorMsg{
     color: red;
     font-size: 12px;
+}
+
+/*workspace.html*/
+.step{
+    width: 30%;
+    border: 1px solid #4b3a8e;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.stepNumber{
+    background-color: #4b3a8e;
+
+}
+
+.stepFooter{
+    padding: 10px;
+    background: lightgreen;
+    
 }
