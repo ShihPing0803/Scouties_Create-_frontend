@@ -1,7 +1,7 @@
 async function init() {
   const [stories, storyTypes] = await Promise.all([
-    fetch("http://localhost:3000/stories").then(res => res.json()),
-    fetch("http://localhost:3000/storyTypes").then(res => res.json())
+    fetch(`http://localhost:3000/stories?userId=${sessionStorage.getItem('userId')}`).then(res => res.json()),
+    fetch("http://localhost:3000/types").then(res => res.json())
   ]);
 
   renderStories(stories);
@@ -19,12 +19,11 @@ function renderStories(stories) {
             <p><span>#${story.id}</span>${story.title}</p>
             <p><span>City</span>${story.city}</p>
             <time><span>Last updated</span> ${story.last_update}</time>
-            <p><span>Owner</span> ${story.story_owner.name} (${story.story_owner.email})</p>
+           
             <p><span>Editor</span>${story.editor ?? 'No assigned yet'}</p>
         </div>
-        <button>
-          <a href="workspace.html?id=${story.id}">View Story</a>
-        </button>
+        <a href="javascript:void(0)" onclick="window.location.assign('/workspace?id=${encodeURIComponent(story.id)}')">View Story</a>
+
     </li>`
   ).join('');
 }

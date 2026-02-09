@@ -149,16 +149,14 @@ nav{
     display: block;
     margin-bottom: 10px;
 }
-.story-card button{
+
+.story-card a{
     padding: 20px 35px;
     border-radius: 10px;
     border: none;
     background-color: darkblue;
-    color: white;
     font-size: 16px;
     cursor: pointer;
-}
-.story-card a{
     color: white;
     text-decoration: none;
 }
@@ -256,11 +254,14 @@ nav{
 
 /*workspace.html*/
 .step{
-    width: 30%;
     border: 1px solid #4b3a8e;
     border-radius: 10px;
     margin-bottom: 30px;
 }
+.stepsContainer{
+    grid-template-columns: repeat(3, 5fr);
+}
+
 .stepNumber{
     background-color: #4b3a8e;
 
@@ -271,3 +272,22 @@ nav{
     background: lightgreen;
     
 }
+/*Step2*/
+.route-layout{
+    margin-top: 16px;
+  }
+ 
+  .route-panel{
+    background: #fff;
+    border-right: 1px solid #e5e5e5;
+  }
+  
+  .route-map{
+    background: #f3f3f3;
+    min-height: 520px; 
+  }
+  .route-hint{
+    background: #eaf2ff;
+    color: #2563eb;
+  }
+  

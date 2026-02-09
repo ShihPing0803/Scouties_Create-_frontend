@@ -1,0 +1,11 @@
+```
+npm i -g json-server
+```
+
+```
+npx json-server --watch db.json --port 3000
+```
+
+```
+npx serve
+```
