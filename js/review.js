@@ -28,6 +28,9 @@ function init() {
   renderSummary(story);
   const allPassed = renderChecklist(story);
   renderSubmitSection(story, allPassed);
+  if (new URLSearchParams(location.search).get('preview') === '1') {
+    document.getElementById('previewStoryBtn').click();
+  }
   if (story.status === 'review' && story.reviewLocal) status.textContent = 'Review package saved on this browser.';
 }
 

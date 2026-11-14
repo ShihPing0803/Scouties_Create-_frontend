@@ -4,10 +4,12 @@
 
 ## 在本機試用
 
-1. 在專案目錄執行 `python3 -m http.server 4173 --bind 127.0.0.1`。
+1. 使用 Node.js 20.19+ 或 22.12+，在專案目錄執行 `npm ci`，再執行 `npm run dev`。
 2. 瀏覽 http://127.0.0.1:4173/register.html 並以測試資料建立本機帳號。
 3. 從 Dashboard 按 **Import Story (.json)**，選取 `examples/kaohsiung-quest.json`。
 4. 在遊戲工作區打開 Review & Submit。按 **Playtest route** 試玩，或按 **Export story (.json)** 下載可再匯入的故事包。
+
+執行 `npm run build` 可產生 `dist/`，再用 `npm run preview` 預覽。工作區使用 React 元件，其餘頁面由 Vite 以多頁模式建置並沿用既有 JavaScript。
 
 匯入會建立新草稿和新站點 ID，保留故事資料和關卡順序。公開設定、審核狀態和統計資料各依草稿或既有流程處理。範例是兩站的試玩素材，送審仍使用既有的五站、封面與設定檢查。試玩模擬抵達與照片操作，並展示答題、提示扣分、解答與章節解鎖。
 

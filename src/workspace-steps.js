@@ -1,13 +1,9 @@
-const userId  = sessionStorage.getItem('userId');
-if (!userId) window.location.href = 'index.html';
-
-const storyId = new URLSearchParams(window.location.search).get('id');
-if (!storyId) window.location.href = 'dashboard.html';
-
 const MIN_LOCS = 10;
 
 // ── Per-type step definitions ──────────────────────────────────────────────
-function getStepDefs(story) {
+export function getStepDefs(story) {
+  const storyId = encodeURIComponent(story.id);
+  const DB = window.DB;
   const editUrl = `create/${slugOf(story.type)}.html?edit=${storyId}`;
 
   const shared = {
@@ -37,12 +33,12 @@ function getStepDefs(story) {
     },
   };
 
-  const locs = DB.getLocationsByStory(storyId);
+  const locs = DB.getLocationsByStory(story.id);
 
   const routeDone = s => {
     if (locs.length < MIN_LOCS) return false;
     return locs.every(l => {
-      const d = DB.getLocationDetails(storyId, l.id);
+      const d = DB.getLocationDetails(story.id, l.id);
       if (!d) return false;
       return story.type === 'T3'
         ? !!(d.direction && d.nonfiction)
@@ -52,9 +48,9 @@ function getStepDefs(story) {
 
   const routeTodos = [
     { text: `Add ${MIN_LOCS}–15 locations on the map`, key: () => locs.length >= MIN_LOCS },
-    { text: 'Add directions for every checkpoint',     key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(storyId, l.id); return d && d.direction; }) },
-    { text: 'Add challenge for every checkpoint',      key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(storyId, l.id); return d && d.challenge; }), hide: story.type === 'T3' },
-    { text: 'Add non-fiction story for every stop',    key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(storyId, l.id); return d && d.nonfiction; }) },
+    { text: 'Add directions for every checkpoint',     key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(story.id, l.id); return d && d.direction; }) },
+    { text: 'Add challenge for every checkpoint',      key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(story.id, l.id); return d && d.challenge; }), hide: story.type === 'T3' },
+    { text: 'Add non-fiction story for every stop',    key: () => locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(story.id, l.id); return d && d.nonfiction; }) },
     { text: 'Cover photos saved',                      key: s => !!s.coverPhoto },
   ];
 
@@ -191,22 +187,22 @@ function getStepDefs(story) {
       link:  `fiction.html?id=${storyId}`,
       done:  s => {
         if (!(s.storyline && s.storyline.length >= 300)) return false;
-        const locs = DB.getLocationsByStory(storyId);
+        const locs = DB.getLocationsByStory(story.id);
         return locs.length > 0 && locs.every(l => {
-          const d = DB.getLocationDetails(storyId, l.id);
+          const d = DB.getLocationDetails(story.id, l.id);
           return d && d.intro && d.outro;
         });
       },
       todos: [
         { text: 'Write the storyline (min 300 chars)', key: s => !!(s.storyline && s.storyline.length >= 300) },
         { text: 'Add Intro fiction for every checkpoint', key: () => {
-            const locs = DB.getLocationsByStory(storyId);
-            return locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(storyId, l.id); return d && d.intro; });
+            const locs = DB.getLocationsByStory(story.id);
+            return locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(story.id, l.id); return d && d.intro; });
           }
         },
         { text: 'Add Outro fiction for every checkpoint', key: () => {
-            const locs = DB.getLocationsByStory(storyId);
-            return locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(storyId, l.id); return d && d.outro; });
+            const locs = DB.getLocationsByStory(story.id);
+            return locs.length > 0 && locs.every(l => { const d = DB.getLocationDetails(story.id, l.id); return d && d.outro; });
           }
         },
       ],
@@ -229,156 +225,7 @@ function getStepDefs(story) {
   ];
 }
 
-function slugOf(type) {
+export function slugOf(type) {
   return { T1: 'scavenger-hunt', T2: 'quest', T3: 'exploration-tour' }[type] || 'quest';
 }
 
-// ── Init ───────────────────────────────────────────────────────────────────
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Show loading state
-  const container = document.getElementById('stepsContainer');
-  if (container) {
-    container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b7280;">
-        <i class="fa-solid fa-spinner fa-spin" style="font-size:28px;color:#4b3a8e;"></i>
-        <p style="margin-top:16px;font-size:14px;">Loading workspace…</p>
-      </div>`;
-  }
-
-  // ← DB.ready is now inside DOMContentLoaded so spinner always shows FIRST,
-  //   and renderGrid always runs AFTER, preventing the race condition.
-  DB.ready.then(() => {
-    let story = DB.getStoryById(storyId);
-
-    if (!story) {
-      // Retry once after 600ms (handles race with async createStory POST)
-      setTimeout(() => {
-        story = DB.getStoryById(storyId);
-        if (!story) { showNotFound(); return; }
-        finishInit(story);
-      }, 600);
-      return;
-    }
-
-    finishInit(story);
-  });
-});
-
-function finishInit(story) {
-  try {
-    // Edit quest link
-    const el = document.getElementById('editQuestLink');
-    if (el) el.href = `create/${slugOf(story.type)}.html?edit=${storyId}`;
-
-    renderGrid(story);
-  } catch (err) {
-    console.error('[Workspace] renderGrid error:', err);
-    document.getElementById('stepsContainer').innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
-        <p style="font-size:15px;font-weight:700;color:#ef4444;margin-bottom:8px;">
-          Something went wrong loading the workspace.
-        </p>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:20px;">${err.message}</p>
-        <a href="dashboard.html" style="color:#4b3a8e;font-weight:700;">← Back to Dashboard</a>
-      </div>`;
-  }
-}
-
-function showNotFound() {
-  const container = document.getElementById('stepsContainer');
-  if (container) {
-    container.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
-        <p style="font-size:15px;font-weight:700;color:#ef4444;margin-bottom:8px;">
-          Story not found (ID: <code>${storyId}</code>)
-        </p>
-        <p style="font-size:13px;color:#6b7280;margin-bottom:20px;">
-          This story may have been deleted, or there was a sync issue. Try returning to the dashboard.
-        </p>
-        <a href="dashboard.html" style="color:#4b3a8e;font-weight:700;">← Back to Dashboard</a>
-      </div>`;
-  }
-}
-
-function renderGrid(story) {
-  const defs = getStepDefs(story);
-  const container = document.getElementById('stepsContainer');
-  container.innerHTML = '';
-
-  // Compute step statuses sequentially (each step requires previous to be done)
-  const statuses = [];
-  for (let i = 0; i < defs.length; i++) {
-    if (i === 0) {
-      statuses.push(defs[0].done(story) ? 'completed' : 'in-progress');
-    } else {
-      const prevDone = statuses[i - 1] === 'completed';
-      statuses.push(
-        defs[i].done(story) ? 'completed'
-        : prevDone          ? 'in-progress'
-        : 'locked'
-      );
-    }
-  }
-
-  defs.forEach((def, i) => {
-    container.appendChild(buildCard(def, i + 1, statuses[i], story));
-  });
-}
-
-function buildCard(def, num, status, story) {
-  const div = document.createElement('div');
-  div.className = `ws-card ${status}`;
-
-  // Evaluate todos
-  const todos = (def.todos || []).map(t => ({
-    text: t.text,
-    done: t.key(story),
-  }));
-
-  const todosHtml = todos.map(t => `
-    <li>
-      <i class="fa-solid ${t.done ? 'fa-circle-check done' : 'fa-circle empty'}"></i>
-      <span>${t.text}</span>
-    </li>`).join('');
-
-  const footerHtml = status === 'completed'
-    ? `<div class="ws-completed-footer">
-        <i class="fa-solid fa-circle-check"></i>
-        Yay! You have successfully completed this step!
-       </div>`
-    : `<button class="ws-todo-toggle" aria-expanded="false" data-card="${num}">
-         To-do list <i class="fa-solid fa-chevron-down"></i>
-       </button>
-       <a href="${def.link}" class="ws-start-btn ${status === 'locked' ? 'disabled' : ''}">Start</a>`;
-
-  div.innerHTML = `
-    <div class="ws-card-header">
-      <span class="ws-card-step-label">Step ${num}</span>
-      ${status !== 'locked'
-        ? `<a href="${def.link}" class="ws-card-edit-link"><i class="fa-solid fa-pen"></i> Edit step</a>`
-        : ''}
-    </div>
-    <div class="ws-card-illo">${def.illo}</div>
-    <div class="ws-card-body">
-      <h3 class="ws-card-title">${def.title}</h3>
-      <p class="ws-card-desc">${def.desc}</p>
-    </div>
-    <div class="ws-todo-wrap">
-      <ul class="ws-todo-list" id="todo-${num}">${todosHtml}</ul>
-    </div>
-    <div class="ws-card-footer">${footerHtml}</div>`;
-
-  // Toggle to-do list
-  const toggle = div.querySelector('.ws-todo-toggle');
-  if (toggle) {
-    toggle.addEventListener('click', () => {
-      const list = div.querySelector('.ws-todo-list');
-      const open = list.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open);
-      toggle.querySelector('i').style.transform = open ? 'rotate(180deg)' : '';
-    });
-  }
-
-  return div;
-}

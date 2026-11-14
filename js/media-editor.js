@@ -67,3 +67,5 @@ const MediaEditor = (() => {
   }
   return {bind};
 })();
+
+window.MediaEditor = MediaEditor;

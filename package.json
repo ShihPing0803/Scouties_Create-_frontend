@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "vite": "^8.3.8"
+  },
+  "name": "scouties-creator",
+  "scripts": {
+    "dev": "vite --port 4173",
+    "build": "vite build",
+    "preview": "vite preview --port 4173"
+  },
+  "private": true
+}
