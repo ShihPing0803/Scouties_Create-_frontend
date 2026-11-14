@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creators – Scouties</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/creators.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<header class="cr-header">
+    <div class="cr-nav">
+        <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+        <nav class="cr-nav-links">
+            <a href="index.html" class="cr-btn-primary">Become a Creator</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ── HERO / STATS ── -->
+<section class="cr-hero-bar">
+    <div class="cr-hero-bar-inner">
+        <div class="cr-hero-text">
+            <h2>Meet our Creators</h2>
+            <p>Discover the storytellers behind the adventures in your city and around the world.</p>
+        </div>
+        <div class="cr-stats-row">
+            <div class="cr-stat-item">
+                <strong id="statCreators">597+</strong>
+                <span>Published creators</span>
+            </div>
+            <div class="cr-stat-item">
+                <strong id="statQuests">962+</strong>
+                <span>Stories published</span>
+            </div>
+            <div class="cr-stat-item">
+                <strong id="statCities">461+</strong>
+                <span>Cities</span>
+            </div>
+            <div class="cr-stat-item">
+                <strong id="statCountries">62+</strong>
+                <span>Countries</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── MAIN LAYOUT ── -->
+<div class="cr-layout">
+
+    <!-- ── FILTERS SIDEBAR ── -->
+    <aside class="cr-sidebar">
+
+        <!-- Creator Level -->
+        <div class="cr-filter-group">
+            <h3 class="cr-filter-title">Creator Level</h3>
+            <div class="cr-level-btns">
+                <button class="cr-level-btn active" data-level="all">All Creators</button>
+                <button class="cr-level-btn" data-level="top">
+                    <i class="fa-solid fa-trophy"></i> Top Creators
+                    <span class="cr-level-desc">10+ stories</span>
+                </button>
+                <button class="cr-level-btn" data-level="rising">
+                    <i class="fa-solid fa-star"></i> Rising Stars
+                    <span class="cr-level-desc">5–9 stories</span>
+                </button>
+                <button class="cr-level-btn" data-level="new">
+                    <i class="fa-solid fa-seedling"></i> New Creators
+                    <span class="cr-level-desc">1–4 stories</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Country -->
+        <div class="cr-filter-group">
+            <h3 class="cr-filter-title">Country</h3>
+            <select class="cr-select" id="countryFilter">
+                <option value="all">All Countries</option>
+            </select>
+        </div>
+
+        <!-- City -->
+        <div class="cr-filter-group">
+            <h3 class="cr-filter-title">City</h3>
+            <div class="cr-city-list" id="cityList"></div>
+            <button class="cr-load-more-cities" id="loadMoreCities">
+                Load more cities <i class="fa-solid fa-chevron-down"></i>
+            </button>
+        </div>
+
+    </aside>
+
+    <!-- ── CONTENT AREA ── -->
+    <main class="cr-main">
+
+        <!-- Sort Bar -->
+        <div class="cr-sort-bar">
+            <p class="cr-result-count"><span id="resultCount">0</span> creators found</p>
+            <div class="cr-sort-right">
+                <label for="sortSelect">Sort by</label>
+                <select class="cr-select" id="sortSelect">
+                    <option value="quests">Most Stories</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="players">Most Players</option>
+                    <option value="newest">Newest Creators</option>
+                    <option value="name">Name A–Z</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Creator Grid -->
+        <div class="cr-grid" id="creatorGrid"></div>
+
+        <!-- Load More -->
+        <div class="cr-load-more-wrap">
+            <button class="cr-btn-load-more" id="loadMoreBtn">
+                Load more creators <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+
+    </main>
+</div>
+
+<!-- ── BECOME A CREATOR CTA ── -->
+<section class="cr-cta-band">
+    <div class="cr-cta-band-inner">
+        <div>
+            <h2>Share your city's story with the world</h2>
+            <p>Join 597+ creators and start earning from your local knowledge today.</p>
+        </div>
+        <a href="index.html" class="cr-btn-primary cr-btn-lg">Become a Creator</a>
+    </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="cr-faq-section" id="faq">
+    <div class="cr-faq-wrap">
+        <h2 class="cr-section-title">Frequently Asked Questions</h2>
+
+        <details class="cr-faq-item">
+            <summary>How do I become a creator?</summary>
+            <p>Sign up for a free account and go to your dashboard. From there you can create your first story in minutes — no technical skills required.</p>
+        </details>
+        <details class="cr-faq-item">
+            <summary>How does monetization work?</summary>
+            <p>You set the price for each story. Scouties takes a small platform commission, and you receive a revenue share every time a player purchases your story.</p>
+        </details>
+        <details class="cr-faq-item">
+            <summary>Is there a minimum number of stories to publish?</summary>
+            <p>No minimum required. Publish at your own pace — even a single story can attract players and generate income.</p>
+        </details>
+        <details class="cr-faq-item">
+            <summary>Which cities are available?</summary>
+            <p>Scouties works in any city worldwide. If yours isn't listed yet, you'll be the first creator there — a great opportunity to dominate a new market.</p>
+        </details>
+        <details class="cr-faq-item">
+            <summary>How is the creator ranking determined?</summary>
+            <p>Rankings are based on the number of published stories, average rating, and total player count. The more quality stories you publish, the higher your rank.</p>
+        </details>
+    </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="cr-footer">
+    <p>© 2026 Scouties. All rights reserved.</p>
+    <nav>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+    </nav>
+</footer>
+
+<script src="js/creators.js"></script>
+</body>
+</html>

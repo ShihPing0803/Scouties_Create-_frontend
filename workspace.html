@@ -3,28 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Workspace – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/workspace.css">
 </head>
 <body>
-    <div class="container">
-        <nav>
-            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
-            <div class="profile">
-                <span>User Name</span>
-                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
-            </div>
-        </nav>
-        <main>
-            <h2 class="fs-2 fw-bold mt-3">Workspace</h2>
-            <p class="mt-2">This is your workspace. Here you’ll find all the necessary steps to create a game with us. It’s as easy as ABC!</p>
-            <ul class="stepsContainer mt-3 p-3 d-grid flex-wrap gap-4"></ul>
-        </main>
-    </div>
 
-    <script type="module" src="js/workspace.js"></script>
+<!-- Top nav -->
+<header class="ws-header">
+    <div class="ws-header-left">
+        <a href="dashboard.html" class="ws-nav-link"><i class="fa-solid fa-chevron-left"></i> Games</a>
+        <a id="editQuestLink" href="#" class="ws-nav-link"><i class="fa-solid fa-chevron-left"></i> Edit quest</a>
+    </div>
+    <div class="ws-header-right">
+        <span class="ws-lang-badge"><i class="fa-solid fa-globe"></i> Languages: <strong>EN</strong></span>
+        <a href="#" class="ws-preview-btn"><i class="fa-solid fa-mobile-screen"></i> Preview game</a>
+    </div>
+</header>
+
+<!-- Page -->
+<div class="ws-page">
+    <h1 class="ws-page-title">Workspace:</h1>
+    <p class="ws-page-sub">This is your workspace. Here you'll find all the necessary steps to create a game with us. It's as easy as ABC!</p>
+    <div class="ws-grid" id="stepsContainer"></div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/workspace.js"></script>
 </body>
 </html>

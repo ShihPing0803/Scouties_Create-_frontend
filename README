@@ -1,11 +1,20 @@
-```
-npm i -g json-server
-```
+# Scouties Creator — 故事匯入與試玩
 
-```
-npx json-server --watch db.json --port 3000
-```
+以既有 Scouties 創作者前端為基礎，沿用尋寶、劇情任務和探索導覽三種模式，以及路線、定位與章節編輯頁。
 
-```
-npx serve
-```
+## 在本機試用
+
+1. 在專案目錄執行 `python3 -m http.server 4173 --bind 127.0.0.1`。
+2. 瀏覽 http://127.0.0.1:4173/register.html 並以測試資料建立本機帳號。
+3. 從 Dashboard 按 **Import Story (.json)**，選取 `examples/kaohsiung-quest.json`。
+4. 在遊戲工作區打開 Review & Submit。按 **Playtest route** 試玩，或按 **Export story (.json)** 下載可再匯入的故事包。
+
+匯入會建立新草稿和新站點 ID，保留故事資料和關卡順序。公開設定、審核狀態和統計資料各依草稿或既有流程處理。範例是兩站的試玩素材，送審仍使用既有的五站、封面與設定檢查。試玩模擬抵達與照片操作，並展示答題、提示扣分、解答與章節解鎖。
+
+現有前端預設使用 `http://localhost:5000` 作為測試 API，可用頁面載入 `db.js` 前設定的 `window.SCOUTIES_CREATOR_API` 指定相容的開發服務。匯入草稿儲存在目前瀏覽器，故事包的媒體及角色資料可隨檔往返。正式遊戲後端的發布、檔案儲存、定位驗證和 AI 角色服務需要 Scouties 的 API 與認證整合。
+
+## 媒體與送審
+
+站點和劇情頁支援拖放或選檔，儲存後媒體會隨故事包匯出。單次最多選取 2 MB，草稿總容量取決於瀏覽器儲存空間。試玩關閉後可在同一瀏覽器分頁繼續已完成的進度。
+
+預設送審頁會儲存本機審查狀態，並提供匯出檔供審查人員使用。若有正式審查服務，可在載入 `db.js` 前設定同源的 `window.SCOUTIES_REVIEW_API`。前端會送出 `POST {storyId, bundle}` 與 `Idempotency-Key`，收到帶有 `id` 的成功回覆才更新送審狀態。伺服器需驗證登入及故事所有權，再保存審查請求。此介面需由正式 Scouties 後端實作。

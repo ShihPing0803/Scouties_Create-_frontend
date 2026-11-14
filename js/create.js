@@ -1,105 +1,171 @@
-const count = document.querySelector('small');
-const textarea = document.querySelector('textarea');
-textarea.addEventListener('input', () => {
-    count.textContent = `${textarea.value.length}/350`;
+// Auth guard
+if (!sessionStorage.getItem('userId')) window.location.href = '../index.html';
+
+const params  = new URLSearchParams(window.location.search);
+const editId  = params.get('edit'); // present when editing an existing story
+
+let map, cityMarker;
+
+DB.ready.then(() => {
+  initMap();
+  initCitySearch();
+  initCharCount();
+  if (editId) prefillForm();
+  initForm();
 });
 
-const completeBtn = document.querySelector('.submitBtn');
-const city = document.querySelector('#city');
-const title = document.querySelector('#title');
-
-function setErrorMsg(element, message){
-    const error = element.nextElementSibling;
-    error.textContent = message;
+// ── Map ────────────────────────────────────────────────────────────────────
+function initMap() {
+  map = L.map('createMap', { zoomControl: true }).setView([20, 0], 2);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
 }
 
-function clearErrorMsg(element){
-    const error = element.nextElementSibling;
-    error.textContent = "";
+// ── City search autocomplete ───────────────────────────────────────────────
+function initCitySearch() {
+  const input    = document.getElementById('city');
+  const dropdown = document.getElementById('cityDropdown');
+  let debounce;
+
+  input.addEventListener('input', () => {
+    clearTimeout(debounce);
+    const q = input.value.trim();
+    dropdown.innerHTML = '';
+    dropdown.style.display = 'none';
+    if (q.length < 2) return;
+    debounce = setTimeout(() => searchCity(q), 420);
+  });
+
+  document.addEventListener('click', e => {
+    if (!input.contains(e.target) && !dropdown.contains(e.target))
+      dropdown.style.display = 'none';
+  });
 }
 
-function validateForm(){
-    const description = textarea.value.trim();
-    const cityValue = city.value.trim();
-    const titleValue = title.value.trim();
-    const today = new Date().toISOString().split("T")[0];
-    const storyType = document.body.getAttribute('data-story-type') || Null;
+async function searchCity(q) {
+  const dropdown = document.getElementById('cityDropdown');
+  try {
+    const res  = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=6&addressdetails=1`,
+      { headers: { 'Accept-Language': 'en' } }
+    );
+    const data = await res.json();
+    if (!data.length) { dropdown.style.display = 'none'; return; }
 
-    let isValid = true;
+    dropdown.innerHTML = data.map(r =>
+      `<li class="city-opt" data-lat="${r.lat}" data-lng="${r.lon}" data-name="${r.display_name}">
+        <i class="fa-solid fa-location-dot"></i> ${r.display_name}
+      </li>`
+    ).join('');
+    dropdown.style.display = 'block';
 
-    //When user starts typing, clear error message
-    [city, title, textarea].forEach(el => {
-        el.addEventListener('input', () => clearErrorMsg(el));
+    dropdown.querySelectorAll('.city-opt').forEach(li => {
+      li.addEventListener('click', () => {
+        const lat = parseFloat(li.dataset.lat);
+        const lng = parseFloat(li.dataset.lng);
+        document.getElementById('city').value = li.dataset.name;
+        dropdown.style.display = 'none';
+        if (cityMarker) map.removeLayer(cityMarker);
+        cityMarker = L.marker([lat, lng]).addTo(map).bindPopup(li.dataset.name).openPopup();
+        map.flyTo([lat, lng], 12);
+      });
     });
+  } catch {
+    dropdown.style.display = 'none';
+  }
+}
 
-    
-    //Validate city
-    if (!cityValue){
-        setErrorMsg(city, "Please enter a city for your story.");
-        isValid = false;
-    }
+// ── Character counter ──────────────────────────────────────────────────────
+function initCharCount() {
+  const textarea = document.getElementById('description');
+  const counter  = document.querySelector('.char-count');
+  if (!textarea || !counter) return;
+  textarea.addEventListener('input', () => {
+    counter.textContent = `${textarea.value.length} / 350`;
+  });
+}
 
-    //Validate title
-    if (!titleValue){
-        setErrorMsg(title, "Please enter a title for your story.");
-        isValid = false;
-    }
+// ── Prefill form when editing ──────────────────────────────────────────────
+function prefillForm() {
+  const story = DB.getStoryById(editId);
+  if (!story) return;
 
-    //Validate description
-    if (!description){
-        setErrorMsg(textarea, "Please enter some description for your story.");
-        isValid = false;
-    }
+  document.getElementById('title').value       = story.title       || '';
+  document.getElementById('city').value        = story.city        || '';
+  document.getElementById('description').value = story.description || '';
+  if (document.getElementById('difficulty'))
+    document.getElementById('difficulty').value = story.difficulty || 'medium';
+  if (document.getElementById('duration'))
+    document.getElementById('duration').value   = story.duration   || '';
+  if (document.getElementById('ageRating'))
+    document.getElementById('ageRating').value  = story.ageRating  || 'all';
 
-    if (isValid === false) return null;
+  const counter = document.querySelector('.char-count');
+  if (counter) counter.textContent = `${(story.description || '').length} / 350`;
 
-    //Scroll to first error if any
-    if (!isValid) {
-        const firstError = document.querySelector('.errorMsg:not(:empty)');
-        firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return null;
-    }
+  document.querySelector('.submitBtn').textContent = 'Save Changes →';
+  document.querySelector('.form-panel h2').textContent =
+    document.querySelector('.form-panel h2').textContent.replace('Create', 'Edit');
 
-    return{
-      "title": titleValue,
-      "order": 2,
-      "type": storyType,
-      "step": "Step 2",
-      "city": cityValue,
-      "last_update": today,
-      "created_at": today,
-      "story_owner": {
-        "name": "Shih Ping",
-        "email": "aa0421626@gmail.com"
-      },
-      "editor": null,
-      "writer": null,
-      "languages": [
-        "EN"
-      ],
-      "statistics": null
-    
-    };
-};
-completeBtn.addEventListener('click', (e) => {
+  // Fly map to city if we can geocode it later
+  if (story.cityLat && story.cityLng) {
+    if (cityMarker) map.removeLayer(cityMarker);
+    cityMarker = L.marker([story.cityLat, story.cityLng]).addTo(map);
+    map.flyTo([story.cityLat, story.cityLng], 12);
+  }
+}
+
+// ── Form submission ────────────────────────────────────────────────────────
+function initForm() {
+  const form      = document.getElementById('createForm');
+  const submitBtn = document.querySelector('.submitBtn');
+  const storyType = document.body.dataset.storyType;
+
+  // Clear error on input
+  form.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', () => {
+      const err = document.getElementById(el.id + 'Error');
+      if (err) err.textContent = '';
+    });
+  });
+
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const payload = validateForm();
-    if(!payload) return;
-    completeBtn.textContent = "Processing...";
-    
-    //Send data to server
-    fetch("http://localhost:3000/stories", {
-        method: "POST",                       
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Saved:", data); 
-        //window.location.href = `workspace.html/${data.id}`;
-        window.location.href = `/dashboard.html`;
-    })
-    .catch(err => console.error(err));
-});
+
+    const title       = document.getElementById('title').value.trim();
+    const city        = document.getElementById('city').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const difficulty  = document.getElementById('difficulty')?.value || 'medium';
+    const duration    = parseInt(document.getElementById('duration')?.value) || 0;
+    const ageRating   = document.getElementById('ageRating')?.value || 'all';
+    let valid = true;
+
+    if (!title)       { document.getElementById('titleError').textContent = 'Please enter a game title.'; valid = false; }
+    if (!city)        { document.getElementById('cityError').textContent  = 'Please select a city.';     valid = false; }
+    if (!description) { document.getElementById('descError').textContent  = 'Please enter a description.'; valid = false; }
+    if (!valid) return;
+
+    submitBtn.textContent = 'Saving…';
+    submitBtn.disabled    = true;
+
+    const payload = { title, city, description, difficulty, duration, ageRating };
+
+    if (editId) {
+      // Editing existing story
+      DB.updateStory(editId, payload);
+      window.location.href = `../workspace.html?id=${editId}`;
+    } else {
+      // Creating new story
+      const types = DB.getTypes();
+      const type  = types.find(t => t.slug === storyType) || types[0];
+      const story = DB.createStory({
+        ...payload,
+        type:   type.id,
+        userId: sessionStorage.getItem('userId'),
+        status: 'draft'
+      });
+      window.location.href = `../workspace.html?id=${story.id}`;
+    }
+  });
+}

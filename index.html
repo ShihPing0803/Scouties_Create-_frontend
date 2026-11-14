@@ -3,34 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Creator</title>
+    <title>Scouties – Creator Login</title>
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
-<body>
-    <div class="container">
-        <nav>
-            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
-        </nav>
-        <div class="txtArea">
-            <h2> Welcome onboard !</h2>
-            <p>Having an account allows you to create games, earn passive income and even more!</p>
+<body class="auth-page">
+    <div class="auth-split">
+        <!-- Left brand panel -->
+        <div class="auth-brand">
+            <h1 class="auth-logo">Scouties</h1>
+            <p class="auth-tagline">Turn your city knowledge<br>into unforgettable adventures.</p>
+            <div class="auth-brand-stats">
+                <div><strong>10,000+</strong><span>Active players</span></div>
+                <div><strong>500+</strong><span>Stories published</span></div>
+                <div><strong>50+</strong><span>Cities covered</span></div>
+            </div>
         </div>
-        <form id="authForm">
-            <div id="emailSection">
-                <label for="email">Tell us your email in order to sign up or log in:</label>
-                <input type="email" placeholder="example@gmail.com" id="email" required>
-                <button type="button" id="continueBtn">Continue with email</button>
-            </div>
 
-            <!--Disable by default-->
-            <div id="pwdSection" style="display: none;">
-                <label for="pwd">Your password</label>
-                <input type="password" id="pwd" required>
-                <button type="submit" id="loginBtn">Log in</button>
-                <span>forget your password?</span>
+        <!-- Right form panel -->
+        <div class="auth-form-panel">
+            <div class="auth-card">
+                <h2 id="authTitle">Welcome back! 👋</h2>
+                <p id="authSubtitle">Sign in to your creator account</p>
+
+                <form id="authForm" novalidate>
+                    <!-- Step 1: Email -->
+                    <div id="emailSection">
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+                            <p class="field-error" id="emailError"></p>
+                        </div>
+                        <button type="button" class="auth-btn" id="continueBtn">Continue with email</button>
+                        <p class="auth-divider"><span>or</span></p>
+                        <p class="auth-switch">New to Scouties? <a href="register.html">Create an account →</a></p>
+                    </div>
+
+                    <!-- Step 2: Password (hidden by default) -->
+                    <div id="pwdSection" style="display:none;">
+                        <div class="form-group">
+                            <label for="email2">Email</label>
+                            <input type="email" id="email2" readonly class="input-readonly">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Password</label>
+                            <div class="input-eye-wrap">
+                                <input type="password" id="pwd" placeholder="Your password" autocomplete="current-password" required>
+                                <button type="button" class="eye-btn" id="eyeBtn">👁</button>
+                            </div>
+                            <p class="field-error" id="pwdError"></p>
+                        </div>
+                        <button type="submit" class="auth-btn" id="loginBtn">Log in</button>
+                        <button type="button" class="auth-btn-ghost" id="backBtn">← Back</button>
+                    </div>
+                </form>
             </div>
-        </form>
+            <p class="auth-footer-note">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
     </div>
+
+    <script src="js/db.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

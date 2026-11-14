@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Touches – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/final-touches.css">
+</head>
+<body>
+
+<header class="ft-header">
+    <div class="ft-header-left">
+        <a id="backLink" href="workspace.html" class="ft-nav-link">
+            <i class="fa-solid fa-chevron-left"></i> Workspace
+        </a>
+    </div>
+    <a href="#" class="ft-preview-btn">
+        <i class="fa-solid fa-mobile-screen"></i> Preview game
+    </a>
+</header>
+
+<div class="ft-page">
+    <h1 class="ft-title">Final touches</h1>
+    <p class="ft-subtitle">Add a few details that will help 'sell' your game to potential players.</p>
+
+    <!-- OVERVIEW -->
+    <div class="ft-section">
+        <div class="ft-section-title">
+            Overview
+            <a href="#" class="ft-learn-more">Learn more</a>
+        </div>
+        <p class="ft-section-hint">
+            Describe the overall experience of your game and why players should well... play it!
+            Try to be concise: cover some key items they'll be seeing and what they'll be learning about.
+        </p>
+        <textarea id="overviewField" class="ft-textarea" maxlength="500"
+            placeholder="Write an overview of your game for potential players…"></textarea>
+        <div class="ft-field-footer">
+            <span class="ft-char-min" id="overviewMin">30 minimum characters required</span>
+            <span class="ft-char-count"><span id="overviewCount">0</span> / 500</span>
+        </div>
+    </div>
+    <hr class="ft-divider">
+
+    <!-- HIGHLIGHTS -->
+    <div class="ft-section">
+        <div class="ft-section-title">
+            Highlights
+            <a href="#" class="ft-learn-more">Learn more</a>
+        </div>
+        <p class="ft-section-hint">
+            Add a few (3-5) important highlights from your game. You can even include interesting details about your
+            locations. This information will appear in-app, as well as on the webpage, before purchasing or activating a game.
+        </p>
+        <textarea id="highlightsField" class="ft-textarea" maxlength="300"
+            placeholder="- Highlight 1&#10;- Highlight 2&#10;- Highlight 3"></textarea>
+        <div class="ft-field-footer">
+            <span class="ft-char-min" id="highlightsMin">100 minimum characters required</span>
+            <span class="ft-char-count"><span id="highlightsCount">0</span> / 300</span>
+        </div>
+    </div>
+    <hr class="ft-divider">
+
+    <!-- GOOD TO KNOW -->
+    <div class="ft-section">
+        <div class="ft-section-title">
+            Good to know
+            <a href="#" class="ft-learn-more">Learn more</a>
+        </div>
+        <p class="ft-section-hint">What should the players know before starting?</p>
+        <div class="ft-tags" id="tagsContainer"></div>
+    </div>
+    <hr class="ft-divider">
+
+    <!-- MAIN COVER -->
+    <div class="ft-section">
+        <div class="ft-section-title">
+            Main cover
+            <a href="#" class="ft-learn-more">Learn more</a>
+        </div>
+        <p class="ft-section-hint">
+            Select the main cover picture from all the photos you added so far.
+        </p>
+
+        <!-- Existing cover -->
+        <div class="ft-cover-thumbs" id="coverThumbs"></div>
+
+        <p class="ft-cover-or">Or add a new picture to be used as cover. Supported formats: jpg, png.</p>
+
+        <!-- URL input as file substitute -->
+        <div class="ft-cover-url-row">
+            <input type="url" id="coverUrlInput" class="ft-url-input" placeholder="Paste image URL…">
+            <button class="ft-btn-sm" id="setCoverBtn" type="button">Preview</button>
+        </div>
+        <div class="ft-dropzone" style="margin-top:8px;">
+            Drag and drop your file here or<br>
+            <button class="ft-choose-btn" type="button">choose file</button>
+        </div>
+    </div>
+    <hr class="ft-divider">
+
+    <!-- ETC -->
+    <div class="ft-section">
+        <div class="ft-section-title">Estimated time of completion</div>
+        <div class="ft-etc-value" id="etcDisplay">— minutes</div>
+        <p class="ft-section-note">Calculated from the estimated time set for each checkpoint.</p>
+    </div>
+    <hr class="ft-divider">
+
+    <!-- Requirements checklist -->
+    <div class="ft-checklist-box">
+        <p><i class="fa-solid fa-circle-info"></i> Make sure that:</p>
+        <ul>
+            <li><i class="fa-solid fa-check"></i>
+                the Overview is trying to sell the entire experience (excluding the fiction), with an emphasis on places and the stories you'll discover about them.
+            </li>
+            <li><i class="fa-solid fa-check"></i>
+                the highlights sell the experience without repeating information from the overview section.
+            </li>
+            <li><i class="fa-solid fa-check"></i>
+                you select the most attractive picture for the cover.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Bottom actions -->
+    <div class="ft-bottom-bar">
+        <button class="ft-save-btn-outline" id="saveBtn">Save</button>
+        <button class="ft-complete-btn" id="completeBtn">Complete step</button>
+    </div>
+
+    <div class="ft-save-toast" id="saveToast" style="display:none;">
+        <i class="fa-solid fa-circle-check"></i> Saved!
+    </div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/cover.js"></script>
+</body>
+</html>

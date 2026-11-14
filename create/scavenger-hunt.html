@@ -3,53 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="../css/style.css">
+    <title>Create Scavenger Hunt – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/create.css">
 </head>
-<body data-story-type = "scavenger-hunt">
-    <div class="container">
-        <nav>
+<body data-story-type="scavenger-hunt">
+    <header class="app-header">
+        <div class="app-nav">
             <h1 class="logo"><a href="../dashboard.html">Scouties</a></h1>
-            <div class="profile">
-                <span>User Name</span>
-                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
-            </div>
-        </nav>
-        <div class="createPage">
-            <div class="formPanel">
-                <h2>Create a scavenger-hunt</h2>
-                <p>🎉 Congrats on starting to build a quest! 🤝</p>
-                <br>
-                <p>Make sure you build it where you live, either in the same city, or in another one nearby, so that you can actually head out on location to gather materials for your game.</p>
-                <br>
-                <p>Also, make sure to build your tour in English so we can be able to moderate it. Once the English version is vetted and published for sale, you will also be able to either translate it manually or request to auto-translate it into other languages with the help of our platform.</p>
-                <form>
-                    <label for="city">What city will your game be in?</label>
-                    <input type="search" id="city" name="city" placeholder="Search for the city name or zip code">
-                    <p class="errorMsg"></p>
-                    <label for="title">Game Title</label>
-                    <input type="text" id="title" name="title" placeholder="Enter your game title here">
-                    <p class="errorMsg"></p>
-                    <label for="description">Game Description</label>
-                    <textarea id="description" 
-                            name="description" 
-                            rows="4" 
-                            placeholder="Describe your game here"
-                            maxlength="350">
-                    </textarea>
-                    <p class="errorMsg"></p>
-                    <small>0 / 350</small>
-                    <p class="errorMsg"></p>
-                    <button type="submit" class="submitBtn">Complete Step</button>
-                </form>
-            </div>
-            <div class="mapPanel">
-                <iframe src="https://www.google.com/maps?q=Sibiu&output=embed" width="100%"
-                    height="100%" style="border:0;"></iframe>
+            <div class="nav-right">
+                <i class="fa-solid fa-chevron-right"></i>
+                <span>New Scavenger Hunt</span>
             </div>
         </div>
+    </header>
+
+    <div class="create-layout">
+        <div class="form-panel">
+            <h2>🔍 Create a Scavenger Hunt</h2>
+            <p class="form-intro">
+                Hide clues across the city and challenge players to find them all in the right order.
+                Build your hunt in a city you know well — you'll need to visit each location to craft the perfect clues.
+            </p>
+
+            <form id="createForm" novalidate>
+                <div class="form-group">
+                    <label for="city">What city will your game be in?</label>
+                    <div class="city-search-wrap">
+                        <input type="text" id="city" name="city" placeholder="Type a city name…" autocomplete="off">
+                        <ul class="city-dropdown" id="cityDropdown"></ul>
+                    </div>
+                    <p class="errorMsg" id="cityError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Game Title</label>
+                    <input type="text" id="title" name="title" placeholder="Give your scavenger hunt a name">
+                    <p class="errorMsg" id="titleError"></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Game Description</label>
+                    <textarea id="description" name="description" rows="4"
+                        placeholder="What will players be hunting for? What makes your hunt unique?" maxlength="350"></textarea>
+                    <p class="errorMsg" id="descError"></p>
+                    <span class="char-count">0 / 350</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="difficulty">Difficulty</label>
+                        <select id="difficulty" name="difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration (min)</label>
+                        <input type="number" id="duration" name="duration" placeholder="60" min="15" max="360">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ageRating">Age Rating</label>
+                    <select id="ageRating" name="ageRating">
+                        <option value="all">All ages</option>
+                        <option value="7+">7+</option>
+                        <option value="12+">12+</option>
+                        <option value="18+">18+</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submitBtn">Save &amp; Continue →</button>
+            </form>
+        </div>
+
+        <div class="map-panel">
+            <div id="createMap"></div>
+        </div>
     </div>
+
+    <script src="../js/db.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
     <script src="../js/create.js"></script>
 </body>
 </html>

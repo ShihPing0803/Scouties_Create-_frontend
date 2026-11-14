@@ -1,0 +1,126 @@
+{
+  "users": [
+    {
+      "id": "U1",
+      "name": "Demo Creator",
+      "email": "demo@scouties.com",
+      "pwd": "demo1234",
+      "avatar": "https://i.pravatar.cc/80?img=10",
+      "joinDate": "2024-01-15"
+    }
+  ],
+  "types": [
+    {
+      "id": "T1",
+      "name": "Scavenger Hunt",
+      "slug": "scavenger-hunt",
+      "description": "Hide clues across the city and challenge players to find them all in the right order.",
+      "includes": [
+        "Location clues",
+        "Photo challenges",
+        "Trivia questions",
+        "Final treasure reveal"
+      ]
+    },
+    {
+      "id": "T2",
+      "name": "Quest",
+      "slug": "quest",
+      "description": "Build a narrative-driven adventure with branching choices and rich storytelling.",
+      "includes": [
+        "Story narrative",
+        "Character dialogue",
+        "Challenges",
+        "Multiple endings"
+      ]
+    },
+    {
+      "id": "T3",
+      "name": "Exploration Tour",
+      "slug": "exploration-tour",
+      "description": "Create a self-guided tour that reveals hidden history, art and culture at every stop.",
+      "includes": [
+        "Historical facts",
+        "Cultural stories",
+        "Photo spots",
+        "Local insider tips"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "S2",
+      "title": "Night Market Scavenger",
+      "type": "T1",
+      "city": "Taipei",
+      "description": "Find hidden clues scattered across Shilin Night Market before the stalls close.",
+      "userId": "U1",
+      "status": "draft",
+      "last_update": "2025-06-15",
+      "created_at": "2025-06-01",
+      "languages": [
+        "EN"
+      ],
+      "statistics": {
+        "plays": 0,
+        "rating": 0,
+        "revenue": 0
+      }
+    }
+  ],
+  "locations": [
+    {
+      "id": "LOC-S1-1",
+      "name": "Dihua Street Entrance",
+      "address": "Dihua St, Datong District, Taipei City, Taiwan",
+      "storyId": null,
+      "orderId": 1,
+      "lat": 25.056,
+      "lng": 121.5093
+    },
+    {
+      "id": "LOC-S1-2",
+      "name": "Xiahai City God Temple",
+      "address": "No. 61, Dihua St, Datong District, Taipei City",
+      "storyId": null,
+      "orderId": 2,
+      "lat": 25.0572,
+      "lng": 121.5083
+    },
+    {
+      "id": "LOC-S1-3",
+      "name": "URS127 Creative Space",
+      "address": "No. 127, Dihua St, Datong District, Taipei City",
+      "storyId": null,
+      "orderId": 3,
+      "lat": 25.0585,
+      "lng": 121.5074
+    }
+  ],
+  "locationDetails": [
+    {
+      "storyId": null,
+      "locId": "LOC-S1-1",
+      "orderId": 1,
+      "direction": "Walk to the red arch gate at the entrance of Dihua Street. Look for the traditional lanterns hanging above.",
+      "challenge": "Count how many red lanterns are hanging above the entrance gate.",
+      "answer": "12",
+      "hint": "Look up! They are hanging in pairs.",
+      "nonfiction": "Dihua Street (迪化街) is one of Taipei's oldest commercial streets, dating back to the 1850s during the Qing Dynasty. It was originally known for its trade in herbs, dried goods, and fabric.",
+      "etc": 5,
+      "id": "dc14"
+    },
+    {
+      "storyId": null,
+      "locId": "LOC-S1-2",
+      "orderId": 2,
+      "direction": "Continue north along Dihua Street about 200m. The temple entrance faces the street.",
+      "challenge": "Find the wooden board listing the temple's founding year. What year was it established?",
+      "answer": "1859",
+      "hint": "The board is located near the main altar entrance on the left side.",
+      "nonfiction": "Xiahai City God Temple (霞海城隍廟) is famous throughout Taiwan as the place to pray for love and marriage. The deity Er Yue Er (the matchmaker) is said to help over 10,000 couples find love each year.",
+      "etc": 10,
+      "id": "d8d9"
+    }
+  ]
+}

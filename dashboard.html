@@ -3,39 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Dashboard – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <nav>
+    <!-- NAV -->
+    <header class="app-header">
+        <div class="app-nav">
             <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
-            <div class="profile">
-                <span>User Name</span>
-                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
+            <div class="nav-right">
+                <div class="profile">
+                    <img id="navAvatar" src="https://i.pravatar.cc/40?img=10" alt="Avatar" class="profile-pic">
+                    <span id="navName">Creator</span>
+                </div>
+                <button class="btn-logout" id="logoutBtn" title="Log out">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
             </div>
-        </nav>
-        <div class="function">
-            <div class="search">
-                <input type="search" placeholder="Search stories..." class="searchBar">
-                <button><i class="fa fa-search" aria-hidden="true"></i></button>
+        </div>
+    </header>
+
+    <div class="dash-layout">
+        <!-- Stats bar -->
+        <section class="stats-bar">
+            <div class="stat-card">
+                <i class="fa-solid fa-book-open"></i>
+                <div>
+                    <strong id="statTotal">0</strong>
+                    <span>Total stories</span>
+                </div>
             </div>
-            <button class="createBtn">New Story</button>
-        </div>
-        <!--import mock data from json-->
-        <ul class="stories"></ul>
+            <div class="stat-card">
+                <i class="fa-solid fa-circle-check" style="color:#10b981"></i>
+                <div>
+                    <strong id="statPublished">0</strong>
+                    <span>Published</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-users" style="color:#3b82f6"></i>
+                <div>
+                    <strong id="statPlays">0</strong>
+                    <span>Total plays</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-dollar-sign" style="color:#f59e0b"></i>
+                <div>
+                    <strong id="statRevenue">$0</strong>
+                    <span>Revenue</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-star" style="color:#f59e0b"></i>
+                <div>
+                    <strong id="statRating">–</strong>
+                    <span>Avg rating</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <main class="dash-main">
+            <div class="dash-toolbar">
+                <div class="search-wrap">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="searchBar" class="searchBar" placeholder="Search stories…">
+                </div>
+                <button class="createBtn" id="importStoryBtn" type="button">Import Story (.json)</button>
+                <input type="file" id="importStoryFile" accept=".json,application/json" hidden>
+                <button class="createBtn" id="newStoryBtn">
+                    <i class="fa-solid fa-plus"></i> New Story
+                </button>
+            </div>
+
+            <p id="importStoryStatus" role="status"></p>
+
+            <!-- Filter tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="published">Published</button>
+                <button class="filter-tab" data-filter="draft">Drafts</button>
+                <button class="filter-tab" data-filter="review">In Review</button>
+            </div>
+
+            <!-- Story list -->
+            <ul class="stories" id="storiesList"></ul>
+
+            <!-- Empty state -->
+            <div class="empty-state" id="emptyState" style="display:none;">
+                <i class="fa-solid fa-map-location-dot"></i>
+                <h3>No stories yet</h3>
+                <p>Create your first story and start earning from your city knowledge.</p>
+                <button class="createBtn" id="emptyCreateBtn">
+                    <i class="fa-solid fa-plus"></i> Create your first story
+                </button>
+            </div>
+        </main>
     </div>
-    <div class="createBlock">
-        <button class="closeBtn">&times;</button>
-        <h2>Select Story Type</h2>
-        <p>Currently, we have three story types available</p>
-        <div class="storyTypes">
-            <ul></ul>
-            <div class="typeIntro"></div>
+
+    <!-- Story type modal -->
+    <div class="modal-overlay" id="modalOverlay" style="display:none;">
+        <div class="createBlock">
+            <button class="closeBtn" id="closeModal">&times;</button>
+            <h2>Choose Story Type</h2>
+            <p>Select the format that best fits your adventure</p>
+            <div class="storyTypes">
+                <ul id="typeList"></ul>
+                <div class="typeIntro" id="typeIntro">
+                    <p class="type-placeholder">← Select a type to see details</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="continueBtn" id="continueBtn">Continue →</button>
+            </div>
         </div>
-        <button class="continueBtn">Continue</button>
     </div>
-    <script type="module" src="js/dashboard.js"></script>
+
+    <script src="js/db.js"></script>
+<script src="js/escape-html.js"></script>
+    <script src="js/story-package.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

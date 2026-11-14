@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review &amp; Submit – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/step-page.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="app-nav">
+        <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+        <div class="nav-right">
+            <a id="backLink" href="workspace.html" class="nav-back">
+                <i class="fa-solid fa-arrow-left"></i> Back to Workspace
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="step-layout">
+    <div class="step-sidebar">
+        <div class="step-num-badge">Step 6 of 6</div>
+        <h2 class="step-sidebar-title">Review &amp; Submit</h2>
+        <p class="step-sidebar-desc">
+            Almost there! Review your game summary and submit for our team to approve.
+        </p>
+        <div class="review-timeline">
+            <p class="timeline-title">What happens next?</p>
+            <ol class="timeline-list">
+                <li>
+                    <span class="tl-icon"><i class="fa-solid fa-paper-plane"></i></span>
+                    <div>
+                        <strong>You submit</strong>
+                        <span>Your game enters the review queue</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="tl-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <div>
+                        <strong>We review (3–5 days)</strong>
+                        <span>Our team checks quality, accuracy &amp; safety</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="tl-icon"><i class="fa-solid fa-circle-check"></i></span>
+                    <div>
+                        <strong>You get notified</strong>
+                        <span>Approved → live immediately. Feedback → revise and resubmit</span>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="step-main">
+        <!-- Game summary -->
+        <div class="step-card review-summary" id="gameSummary">
+            <div class="summary-cover" id="summaryCover"></div>
+            <div class="summary-info">
+                <div class="summary-type" id="summaryType"></div>
+                <h3 class="summary-title" id="summaryTitle">Loading…</h3>
+                <p class="summary-city" id="summaryCity"></p>
+                <p class="summary-desc" id="summaryDesc"></p>
+                <div class="summary-tags" id="summaryTags"></div>
+            </div>
+        </div>
+
+        <!-- Requirements checklist -->
+        <div class="step-card">
+            <h3>Requirements Checklist</h3>
+            <p class="step-card-sub">All items must be completed before submitting.</p>
+            <div class="step-actions">
+                <button type="button" class="btn-submit" id="previewStoryBtn">Playtest route</button>
+                <button type="button" class="btn-submit" id="exportStoryBtn">Export story (.json)</button>
+            </div>
+            <p id="packageStatus" role="status"></p>
+            <ul class="checklist" id="checklist"></ul>
+        </div>
+
+        <!-- Submit -->
+        <div class="step-card submit-card" id="submitCard">
+            <div class="submit-not-ready" id="submitNotReady" style="display:none;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <div>
+                    <strong>Not ready to submit</strong>
+                    <span>Complete all requirements above first.</span>
+                </div>
+            </div>
+
+            <div class="submit-ready" id="submitReady" style="display:none;">
+                <i class="fa-solid fa-rocket"></i>
+                <div>
+                    <strong>Ready to submit!</strong>
+                    <span>Your game meets all requirements.</span>
+                </div>
+            </div>
+
+            <div class="submit-already" id="submitAlready" style="display:none;">
+                <i class="fa-solid fa-clock"></i>
+                <div>
+                    <strong>Under review</strong>
+                    <span>Review status is shown below.</span>
+                </div>
+            </div>
+
+            <div class="submit-published" id="submitPublished" style="display:none;">
+                <i class="fa-solid fa-circle-check" style="color:#10b981;"></i>
+                <div>
+                    <strong>Published!</strong>
+                    <span>Your game is live. Players can find and play it now.</span>
+                </div>
+            </div>
+
+            <div class="step-actions" id="submitActions" style="display:none;">
+                <button class="btn-submit" id="submitBtn">
+                    <i class="fa-solid fa-paper-plane"></i> Submit for Review
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<dialog id="playtestDialog" aria-label="Playtest route" style="width:min(610px,90vw); padding:24px; border:1px solid #d9d4eb; border-radius:12px">
+    <form method="dialog"><button class="btn-submit" style="float:right">Close</button></form>
+    <div id="playtestContent"></div>
+</dialog>
+<script src="js/db.js"></script>
+<script src="js/escape-html.js"></script>
+<script src="js/story-package.js"></script>
+<script src="js/playtest.js"></script>
+<script src="js/review.js"></script>
+</body>
+</html>

@@ -1,68 +1,95 @@
-const emailSection = document.getElementById('emailSection');
-const pwdSection = document.getElementById('pwdSection');
-const continueBtn = document.getElementById('continueBtn');
-const loginBtn = document.getElementById('loginBtn');
+// Auth guard: already logged in → go to dashboard
+if (sessionStorage.getItem('userId')) {
+  window.location.href = 'dashboard.html';
+}
 
-continueBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    if(!email){
-        alert('Please enter your email.');
-        return;
-    }
+// ── DOM-ready: wire up all static UI immediately ───────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const emailInput   = document.getElementById('email');
+  const email2Input  = document.getElementById('email2');
+  const pwdInput     = document.getElementById('pwd');
+  const emailSection = document.getElementById('emailSection');
+  const pwdSection   = document.getElementById('pwdSection');
+  const continueBtn  = document.getElementById('continueBtn');
+  const backBtn      = document.getElementById('backBtn');
+  const eyeBtn       = document.getElementById('eyeBtn');
+  const emailError   = document.getElementById('emailError');
+  const pwdError     = document.getElementById('pwdError');
+  const authTitle    = document.getElementById('authTitle');
+  const authSubtitle = document.getElementById('authSubtitle');
 
-    try{
-        const response = await fetch(`http://localhost:3000/users?email=${encodeURIComponent(email)}`);
-        
-        if(response.ok){
-            const users = await response.json();
-            if(users.length > 0){
-                pwdSection.style.display = 'block';
-                emailSection.style.display = 'none';
-            }
-            else{
-                window.location.href = './register.html';
-            }
-        }
-        else{
-            throw new Error('Network response was not ok');
-        }
-        
-    }
-    catch(error){
-        console.error('Error during authentication:', error);
-        alert('伺服器錯誤，請稍後再試');
-    }
-});
+  // Toggle password visibility
+  eyeBtn.addEventListener('click', () => {
+    const show = pwdInput.type === 'password';
+    pwdInput.type    = show ? 'text' : 'password';
+    eyeBtn.textContent = show ? '🙈' : '👁';
+  });
 
-loginBtn.addEventListener('click', async (e) => {
-  e.preventDefault();
+  // Step 1: check email (can work with or without DB)
+  continueBtn.addEventListener('click', () => {
+    const email = emailInput.value.trim();
+    emailError.textContent = '';
 
-  const email = document.getElementById('email').value.trim();
-  const pwd = document.getElementById('pwd').value; 
-  try {
-
-    const url = `http://localhost:3000/users?email=${encodeURIComponent(email)}&pwd=${encodeURIComponent(pwd)}`;
-    const res = await fetch(url);
-
-    if (!res.ok) throw new Error('Network error');
-
-    const users = await res.json();
-    if (users.length === 0) {
-      alert('帳號或密碼錯誤');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailError.textContent = 'Please enter a valid email address.';
       return;
     }
 
-    const user = users[0]; 
-    sessionStorage.setItem('userId', user.id);
-    sessionStorage.setItem('userName', user.name);
+    // Use DB if ready, otherwise fall back to register
+    const checkEmail = () => {
+      const user = DB.getUserByEmail(email);
+      if (user) {
+        email2Input.value      = email;
+        emailSection.style.display = 'none';
+        pwdSection.style.display   = 'block';
+        authTitle.textContent      = 'Welcome back!';
+        authSubtitle.textContent   = 'Enter your password to continue';
+        pwdInput.focus();
+      } else {
+        sessionStorage.setItem('pendingEmail', email);
+        window.location.href = 'register.html';
+      }
+    };
 
-    window.location.href = `/dashboard.html`;
+    // DB might already be ready
+    if (window.DB && DB.getUserByEmail) {
+      DB.ready.then(checkEmail);
+    } else {
+      sessionStorage.setItem('pendingEmail', email);
+      window.location.href = 'register.html';
+    }
+  });
 
-  } catch (err) {
-    console.error(err);
-    alert('伺服器錯誤，請稍後再試');
-  }
+  // Allow Enter in email field
+  emailInput.addEventListener('keydown', e => { if (e.key === 'Enter') continueBtn.click(); });
+
+  // Step 2: login
+  document.getElementById('authForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = email2Input.value.trim();
+    const pwd   = pwdInput.value;
+    pwdError.textContent = '';
+
+    DB.ready.then(() => {
+      const user = DB.login(email, pwd);
+      if (!user) {
+        pwdError.textContent = 'Incorrect password. Please try again.';
+        pwdInput.select();
+        return;
+      }
+      sessionStorage.setItem('userId',   user.id);
+      sessionStorage.setItem('userName', user.name);
+      window.location.href = 'dashboard.html';
+    });
+  });
+
+  // Back button
+  backBtn.addEventListener('click', () => {
+    pwdSection.style.display   = 'none';
+    emailSection.style.display = 'block';
+    authTitle.textContent      = 'Welcome back! 👋';
+    authSubtitle.textContent   = 'Sign in to your creator account';
+    pwdError.textContent       = '';
+    emailInput.focus();
+  });
 });
-
-

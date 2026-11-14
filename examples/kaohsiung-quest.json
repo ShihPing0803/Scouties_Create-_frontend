@@ -1,0 +1,45 @@
+{
+  "schema": "scouties.story/v1",
+  "story": {
+    "type": "T2",
+    "title": "駁二的未寄明信片",
+    "city": "高雄",
+    "description": "循著港邊的線索，替一封沒寄出的明信片找到收件人。",
+    "storyline": "你在港邊拾到一張舊明信片。背面有一句話：在鐵道盡頭等我。",
+    "ending": "你把明信片交給等在港邊的人。她笑著說，那張照片是兩人第一次來高雄時拍的。",
+    "languages": ["ZH"],
+    "pricing": {"model":"free","visibility":"unlisted"}
+  },
+  "locations": [
+    {
+      "name":"駁二藝術特區",
+      "address":"高雄市鹽埕區大勇路1號",
+      "lat":22.6202,
+      "lng":120.2819,
+      "detail":{
+        "direction":"前往駁二的大勇倉庫群入口。",
+        "intro":"明信片上的舊照片拍到一整排磚牆。",
+        "challenge":"這裡的展覽空間主要由哪一類建築改造？",
+        "answerType":"multiple",
+        "choices":["倉庫","燈塔","車站"],
+        "answer":"倉庫",
+        "hint":"想想貨物卸下船後會先放在哪裡。",
+        "nonfiction":"駁二保留了高雄港倉庫群的空間。",
+        "outro":"你在照片背面找到第二道記號：交錯的鐵軌。"
+      }
+    },
+    {
+      "name":"哈瑪星鐵道文化園區",
+      "address":"高雄市鼓山區鼓山一路32號",
+      "lat":22.6235,
+      "lng":120.2765,
+      "detail":{
+        "direction":"走到哈瑪星鐵道文化園區，停在步道邊查看線索。",
+        "challenge":"請選一張能看出鐵路痕跡的照片。",
+        "answerType":"photo",
+        "hint":"留意草地上的軌道。",
+        "outro":"照片裡的鐵道旁，正站著一個等待你的人。"
+      }
+    }
+  ]
+}

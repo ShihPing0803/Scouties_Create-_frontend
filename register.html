@@ -3,9 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Scouties – Create Account</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
 </head>
-<body>
-    register
+<body class="auth-page">
+    <div class="auth-split">
+        <!-- Left brand panel -->
+        <div class="auth-brand">
+            <h1 class="auth-logo">Scouties</h1>
+            <p class="auth-tagline">Join 500+ creators earning from their city knowledge.</p>
+            <ul class="auth-brand-perks">
+                <li>✅ Free to create and publish</li>
+                <li>✅ Earn passive income per play</li>
+                <li>✅ No coding skills needed</li>
+                <li>✅ Full analytics dashboard</li>
+            </ul>
+        </div>
+
+        <!-- Right form panel -->
+        <div class="auth-form-panel">
+            <div class="auth-card">
+                <h2>Create your account</h2>
+                <p>Start building stories in minutes</p>
+
+                <form id="registerForm" novalidate>
+                    <div class="form-group">
+                        <label for="regName">Full name</label>
+                        <input type="text" id="regName" placeholder="Your name" autocomplete="name" required>
+                        <p class="field-error" id="nameError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regEmail">Email address</label>
+                        <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" required>
+                        <p class="field-error" id="regEmailError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPwd">Password</label>
+                        <div class="input-eye-wrap">
+                            <input type="password" id="regPwd" placeholder="At least 8 characters" required>
+                            <button type="button" class="eye-btn" id="eyeBtn">👁</button>
+                        </div>
+                        <p class="field-error" id="pwdError"></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="regPwd2">Confirm password</label>
+                        <input type="password" id="regPwd2" placeholder="Repeat your password" required>
+                        <p class="field-error" id="pwd2Error"></p>
+                    </div>
+
+                    <button type="submit" class="auth-btn">Create account</button>
+                    <p class="auth-switch">Already have an account? <a href="index.html">Log in →</a></p>
+                </form>
+            </div>
+            <p class="auth-footer-note">By continuing you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/register.js"></script>
 </body>
 </html>

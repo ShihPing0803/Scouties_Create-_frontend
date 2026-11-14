@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/step-page.css">
+</head>
+<body>
+<header class="app-header">
+    <div class="app-nav">
+        <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+        <div class="nav-right">
+            <a id="backLink" href="workspace.html" class="nav-back">
+                <i class="fa-solid fa-arrow-left"></i> Back to Workspace
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="step-layout">
+    <div class="step-sidebar">
+        <div class="step-num-badge">Step 5 of 6</div>
+        <h2 class="step-sidebar-title">Pricing &amp; Settings</h2>
+        <p class="step-sidebar-desc">
+            Set your price and configure language settings. You can change these at any time after publishing.
+        </p>
+        <ul class="step-tips">
+            <li><i class="fa-solid fa-check"></i> You keep 70% of every sale</li>
+            <li><i class="fa-solid fa-check"></i> Free games get more plays but no revenue</li>
+            <li><i class="fa-solid fa-check"></i> Paid games average €3–5 for best conversion</li>
+            <li><i class="fa-solid fa-check"></i> You can offer discount codes later</li>
+        </ul>
+
+        <div class="revenue-calc" id="revenueCalc" style="display:none;">
+            <p class="rev-label">Your estimated earnings per 100 plays:</p>
+            <p class="rev-amount" id="revAmount">€0</p>
+            <p class="rev-sub">at 70% revenue share</p>
+        </div>
+    </div>
+
+    <div class="step-main">
+        <!-- Pricing model -->
+        <div class="step-card">
+            <h3>Pricing Model</h3>
+            <div class="pricing-toggle">
+                <button class="pricing-opt active" data-model="free" id="optFree">
+                    <i class="fa-solid fa-gift"></i>
+                    <strong>Free</strong>
+                    <span>Maximum reach, no revenue</span>
+                </button>
+                <button class="pricing-opt" data-model="paid" id="optPaid">
+                    <i class="fa-solid fa-tag"></i>
+                    <strong>Paid</strong>
+                    <span>Earn from every play</span>
+                </button>
+            </div>
+
+            <!-- Price input (shown only for paid) -->
+            <div class="price-input-wrap" id="priceInputWrap" style="display:none;">
+                <label for="priceInput">Set your price</label>
+                <div class="price-input-row">
+                    <span class="currency-symbol">€</span>
+                    <input type="number" id="priceInput" min="0.99" max="19.99" step="0.50" value="3.99" placeholder="3.99">
+                </div>
+                <p class="price-hint">Min €0.99 · Max €19.99 · Recommended €2.99–€4.99</p>
+                <div class="price-presets">
+                    <button class="price-preset" data-val="1.99">€1.99</button>
+                    <button class="price-preset" data-val="2.99">€2.99</button>
+                    <button class="price-preset selected" data-val="3.99">€3.99</button>
+                    <button class="price-preset" data-val="4.99">€4.99</button>
+                    <button class="price-preset" data-val="6.99">€6.99</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language -->
+        <div class="step-card">
+            <h3>Language</h3>
+            <p class="step-card-sub">Your game must first be published in English. Additional languages can be added after approval.</p>
+            <div class="lang-list" id="langList">
+                <div class="lang-item lang-primary">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="lang-name">English</span>
+                    <span class="lang-badge">Primary · Required</span>
+                </div>
+            </div>
+            <button class="btn-add-lang" id="addLangBtn">
+                <i class="fa-solid fa-plus"></i> Add translation (after publishing)
+            </button>
+        </div>
+
+        <!-- Visibility -->
+        <div class="step-card">
+            <h3>Visibility</h3>
+            <div class="visibility-opts">
+                <label class="vis-opt">
+                    <input type="radio" name="visibility" value="public" checked>
+                    <div class="vis-opt-body">
+                        <strong><i class="fa-solid fa-globe"></i> Public</strong>
+                        <span>Listed in search results and city pages</span>
+                    </div>
+                </label>
+                <label class="vis-opt">
+                    <input type="radio" name="visibility" value="unlisted">
+                    <div class="vis-opt-body">
+                        <strong><i class="fa-solid fa-link"></i> Unlisted</strong>
+                        <span>Only accessible via direct link</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div class="step-actions">
+            <button class="btn-save" id="saveBtn" type="button">
+                <i class="fa-solid fa-floppy-disk"></i> Save Settings
+            </button>
+            <a id="nextStepLink" href="review.html" class="btn-next">
+                Next: Review &amp; Submit <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="save-success" id="saveSuccess" style="display:none;">
+            <i class="fa-solid fa-circle-check"></i> Settings saved!
+        </div>
+    </div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/pricing.js"></script>
+</body>
+</html>

@@ -4,89 +4,103 @@
       "id": "U1",
       "name": "Shih Ping",
       "email": "aa0421626@gmail.com",
-      "pwd": "hashed_pwd_123"
-    },
-    {
-      "id": "U2",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "pwd": "hashed_pwd_456"
+      "pwd": "hashed_pwd_123",
+      "avatar": null,
+      "joinDate": "2025-01-01"
     }
   ],
   "types": [
     {
       "id": "T1",
       "name": "Scavenger Hunt",
-      "description": "Puzzle-based city exploration game"
+      "slug": "scavenger-hunt",
+      "description": "Hide clues across the city and challenge players to find them all.",
+      "includes": ["Location clues", "Photo challenges", "Trivia questions", "Final treasure"]
     },
     {
       "id": "T2",
       "name": "Quest",
-      "description": "Story-driven exploration experience"
+      "slug": "quest",
+      "description": "Build a narrative-driven adventure with branching choices and rich storytelling.",
+      "includes": ["Story narrative", "Challenges", "Character dialogue", "Multiple endings"]
+    },
+    {
+      "id": "T3",
+      "name": "Exploration Tour",
+      "slug": "exploration-tour",
+      "description": "Create a self-guided tour revealing hidden history, art and culture.",
+      "includes": ["Historical facts", "Cultural stories", "Photo spots", "Local tips"]
     }
   ],
   "stories": [
     {
       "id": "S1",
       "userId": "U1",
-      "typeId": "T1",
+      "type": "T1",
       "title": "Tokyo Adventure",
-      "editStep": 2,
       "city": "Tokyo",
-      "lastUpdate": "2025-01-10",
-      "createAt": "2025-01-05"
+      "description": "An exciting scavenger hunt through the streets of Tokyo.",
+      "status": "published",
+      "last_update": "2025-01-10",
+      "created_at": "2025-01-05",
+      "languages": ["EN"],
+      "statistics": { "plays": 42, "rating": 4.7, "revenue": 84 }
     },
     {
       "id": "S2",
       "userId": "U1",
-      "typeId": "T2",
+      "type": "T2",
       "title": "Kaohsiung Quest",
-      "editStep": 1,
-      "city": "高雄市",
-      "lastUpdate": "2025-01-12",
-      "createAt": "2025-01-11"
+      "city": "Kaohsiung",
+      "description": "A story-driven quest exploring the art and culture of Kaohsiung.",
+      "status": "draft",
+      "last_update": "2025-01-12",
+      "created_at": "2025-01-11",
+      "languages": ["EN"],
+      "statistics": { "plays": 0, "rating": 0, "revenue": 0 }
     }
   ],
   "locations": [
     {
-      "id": "S1-100-1",
-      "locId": "100",
+      "id": "LOC-S1-1",
       "name": "Tokyo Tower",
       "address": "4 Chome-2-8 Shibakoen, Minato City, Tokyo",
       "storyId": "S1",
       "orderId": 1,
-      "direction": "Go to the main entrance of Tokyo Tower",
-      "challenge": "Find the year Tokyo Tower was built",
-      "answer": "195",
-      "hint": "Look at the information board near the entrance",
-      "etc": "10"
+      "lat": 35.6586,
+      "lng": 139.7454
     },
     {
-      "id": "S1-100-2",
-      "locId": "100",
-      "name": "Tokyo Tower",
-      "address": "4 Chome-2-8 Shibakoen, Minato City, Tokyo",
+      "id": "LOC-S1-2",
+      "name": "Zojoji Temple",
+      "address": "4 Chome-7-35 Shiba Park, Minato City, Tokyo",
       "storyId": "S1",
-      "orderId": 2
+      "orderId": 2,
+      "lat": 35.6563,
+      "lng": 139.7490
     },
     {
-      "id": "S2-804-1",
-      "locId": "804",
-      "name": "駁二藝術特區",
-      "address": "高雄市鹽埕區大勇路1號",
+      "id": "LOC-S2-1",
+      "name": "Pier-2 Art Center",
+      "address": "No. 1, Dayong Rd, Yancheng District, Kaohsiung City",
       "storyId": "S2",
       "orderId": 1,
-      "direction": "Walk into the art zone",
-      "challenge": "Find a red container",
-      "answer": "Yes",
-      "hint": "It's near the railway"
-    },
+      "lat": 22.6273,
+      "lng": 120.2850
+    }
+  ],
+  "locationDetails": [
     {
-      "id": "LOC-1770559453381-97",
-      "name": "test",
-      "address": "Travelodge, 10-42, King's Cross Road, Angel, Clerkenwell, London Borough of Islington, 大倫敦;大伦敦, 英格兰;英格蘭, WC1X 9QE, 英国;英國",
-      "storyId": "S2",
-      "orderId": 2
+      "id": "LOC-S1-1-detail",
+      "storyId": "S1",
+      "locId": "LOC-S1-1",
+      "orderId": 1,
+      "direction": "Walk to the main entrance of Tokyo Tower.",
+      "challenge": "What year was Tokyo Tower built?",
+      "answer": "1958",
+      "hint": "Look at the information board near the entrance.",
+      "nonfiction": "Tokyo Tower was completed in 1958 and stands 333 meters tall.",
+      "etc": 10
     }
   ]
 }

@@ -3,82 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-
+    <title>Game Route – Scouties</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
     <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/route.css">
 </head>
 <body>
-    <div class="container">
-        <nav>
-            <h1 class="logo"><a href="dashboard.html">Scouties</a></h1>
+<header class="app-header">
+    <div class="app-nav">
+        <div class="nav-left">
+            <a id="backLink" href="workspace.html" class="nav-back">
+                <i class="fa-solid fa-chevron-left"></i> Workspace
+            </a>
+        </div>
+        <div class="nav-right">
             <div class="profile">
-                <span>User Name</span>
-                <img src="https://placehold.net/default.png" alt="Profile Picture" class="profile-pic">
+                <img id="navAvatar" src="https://i.pravatar.cc/36?img=10" alt="" class="profile-pic">
+                <span id="navName"></span>
             </div>
-        </nav>
-        <main class="mt-3">
-            <h2 class="fs-2 fw-bold">Game Route Information</h2>
-          
-            <div class="d-flex justify-content-between align-items-start mt-3">
-              <p class="mb-0">
-                Select 5 to 15 locations to build the route of your game, and add the required information for each of these.
-              </p>
-              <a href="#" class="small fw-semibold text-decoration-none">Learn more</a>
-            </div>
-          
-            <p class="mt-3 text-muted">
-              As you build your route, make sure that the distances between checkpoints do not exceed 550m (1800 feet).
-            </p>
-          
-            <div class="row g-10 mt-4 route-layout">
-                <!-- Left panel -->
-                <div class="col-12 col-lg-5 route-panel">
-                    <form class="p-4 d-flex flex-column gap-3 route-form">
-                        <div>
-                            <label for="locName" class="form-label fw-semibold mb-2">Location name</label>
-                            <input type="text" class="form-control" id="locName" name="locName" placeholder="Define the name that best describes the location"/>
-                        </div>
-                        <div>
-                            <label for="locAddress" class="form-label fw-semibold mb-2">Location address</label>
-                            <input type="text" class="form-control" id="locAddress" name="locAddress" placeholder="Select the best matching location from the search results"/>
-                        </div>
-                        <div class="route-hint p-3 rounded-3">
-                            <p class="mb-2">
-                            The first location of your game's route is known as the <b>'Starting point'</b>.
-                            </p>
-                            <p class="mb-0">
-                            Players will need to stand at the starting point in order for the game to begin.
-                            </p>
-                        </div>
-            
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="addBtn btn-primary px-4">Add</button>
-                        </div>
-                    </form>
-                    <hr>
-                    <button class="btn btn-link text-decoration-none fw-semibold p-0" data-bs-toggle="collapse" data-bs-target="#locationList" aria-expanded="true">
-                        Saved Locations: <span class="ms-1 savedNum"></span> 
-                    </button>
-
-                    <ul id="locationList" class="list-group collapse mt-2"></ul>
-                </div>
-                <!-- Right map -->
-                <div class="col-12 col-lg-7 route-map h-100" id="map"></div>
-                  
-                </div>
-            </div>
-        </main>          
+        </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-    <script type="module" src="js/workspace.js"></script>
+</header>
+
+<div class="route-layout">
+
+    <!-- ── LEFT PANEL ── -->
+    <div class="route-panel">
+
+        <!-- Heading -->
+        <div class="route-panel-header">
+            <h2>Game Route Information</h2>
+            <div class="route-header-sub">
+                Select 5 to 15 locations to build the route of your game, and add the required information for each of these.
+                <a href="#" class="route-learn-more">Learn more</a>
+            </div>
+            <p class="route-distance-note">
+                As you build your route, make sure that the distances between checkpoints do not exceed 550m (1800 feet).
+            </p>
+        </div>
+
+        <!-- Add location form -->
+        <form class="route-form" id="routeForm">
+            <div class="form-group">
+                <label for="locName">Location name</label>
+                <input type="text" id="locName" placeholder="Define the name that best describes the location" required>
+            </div>
+
+            <div class="form-group addr-wrap">
+                <label for="locAddress">Location address</label>
+                <input type="text" id="locAddress" placeholder="Select the best matching location from the search results" autocomplete="off">
+                <ul class="addr-dropdown" id="addrDropdown"></ul>
+            </div>
+
+            <div class="route-hint">
+                <p>The first location of your game's route is known as the <strong>'Starting point'</strong>.</p>
+                <p>Players will need to stand at the starting point in order for the game to begin.</p>
+            </div>
+
+            <div class="route-form-footer">
+                <button type="submit" class="route-add-btn" id="addBtn">Add</button>
+            </div>
+        </form>
+
+        <hr class="route-divider">
+
+        <!-- Saved locations -->
+        <div class="saved-section">
+            <button class="saved-toggle" id="savedToggle">
+                Saved Locations: <span id="savedCount">0 of min. 10</span>
+                <i class="fa-solid fa-chevron-up"></i>
+            </button>
+            <ul class="loc-list" id="locationList"></ul>
+        </div>
+
+        <hr class="route-divider">
+
+        <!-- Cover photos -->
+        <div class="route-cover-section">
+            <div class="route-cover-header">
+                <p>
+                    <strong>Cover pictures</strong> help set the <em>'mood'</em> of your game for players.
+                    <a href="#" class="route-learn-more">Learn more</a>
+                </p>
+                <ul class="route-cover-specs">
+                    <li>Supported formats: jpg, png</li>
+                    <li>Orientation: Landscape</li>
+                    <li>Quality: Clear, well-lit images free of people, crowds and clutter in HD, min. resolution 1280 × 800</li>
+                </ul>
+            </div>
+
+            <!-- URL input as cover source -->
+            <div class="cover-url-row">
+                <input type="url" id="coverUrlInput" placeholder="Paste image URL…" style="flex:1;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;">
+                <button type="button" id="setCoverBtn" class="route-add-btn" style="padding:9px 16px;white-space:nowrap;">Set Cover</button>
+            </div>
+
+            <div class="cover-preview-area" id="coverPreviewArea" style="display:none;">
+                <img id="coverPreviewImg" src="" alt="Cover" style="width:100%;border-radius:8px;margin-top:10px;max-height:160px;object-fit:cover;">
+                <button type="button" id="removeCoverBtn" class="cover-remove-link">
+                    <i class="fa-solid fa-xmark"></i> Remove
+                </button>
+            </div>
+
+            <button class="route-save-images-btn" id="saveCoverBtn">Save images</button>
+        </div>
+
+        <hr class="route-divider">
+
+        <!-- Requirements checklist -->
+        <div class="route-checklist-section">
+            <p class="route-checklist-title">Make sure:</p>
+            <ul class="route-checklist" id="routeChecklist">
+                <li id="check-count">
+                    <i class="fa-solid fa-xmark check-cross"></i>
+                    You have added sufficient locations (min 10 - max 15)
+                </li>
+                <li id="check-distance">
+                    <i class="fa-solid fa-check check-tick"></i>
+                    The distance gap between each location does not exceed 550m (1800 feet)
+                </li>
+                <li id="check-total">
+                    <i class="fa-solid fa-check check-tick"></i>
+                    The total distance of the game is at least 1km (0.85 miles) and 5km tops (3 miles)
+                </li>
+            </ul>
+        </div>
+
+        <div class="route-complete-footer">
+            <button class="route-complete-btn" id="completeStepBtn">Complete step</button>
+        </div>
+
+    </div>
+
+    <!-- ── MAP ── -->
+    <div class="route-map-wrap">
+        <div id="map"></div>
+        <div class="map-tip" id="mapTip">
+            <i class="fa-solid fa-hand-pointer"></i> Click the map to drop a pin
+        </div>
+    </div>
+
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/escape-html.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script src="js/route.js"></script>
 </body>
 </html>
